@@ -72,7 +72,13 @@ export default function ChatInput(props: Props) {
                     <ClayForm
                         ref={formRef}
                         className="d-flex w-100"
-                        onSubmit={() => handleSubmit((data) => props.onSubmit(data, () => setImage('')))}
+                        onSubmit={() => handleSubmit((data) => props.onSubmit(data, () => {
+                            setImage('');
+
+                            if (inputRef.current) {
+                                inputRef.current.value = ''
+                            }
+                        }))}
                     >
                         <ClayInput
                             {...register('input')}
@@ -101,6 +107,8 @@ export default function ChatInput(props: Props) {
                         <ClayInput
                             ref={inputRef}
                             onChange={(event) => {
+
+                                console.log('onchange');
                                 if (event.target.files?.[0]) {
                                 const reader = new FileReader();
                                 reader.readAsDataURL(event.target.files[0]);
@@ -184,7 +192,14 @@ export default function ChatInput(props: Props) {
                                 }
                                 displayType="primary"
                                 aria-label="Submit button"
-                                onClick={(event) => handleSubmit((data) => props.onSubmit(data, () => setImage('')))(event)}
+                                onClick={(event) => handleSubmit((data) => props.onSubmit(data, () => {
+                                    setImage(''); 
+
+                                    if (inputRef.current) {
+                                        inputRef.current.value = ''
+                                    }
+                                    
+                                }))(event)}
                             >
                                 <ClayIcon
                                     aria-label="Submit Prompt"
